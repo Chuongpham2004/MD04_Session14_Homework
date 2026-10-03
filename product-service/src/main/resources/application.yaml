@@ -1,0 +1,21 @@
+server:
+  port: 8082
+
+spring:
+  application:
+    name: product-service
+  config:
+    # Tìm .env dù chạy từ thư mục product-service hay từ thư mục gốc của project
+    import:
+      - optional:file:.env[.properties]
+      - optional:file:./product-service/.env[.properties]
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+app:
+  jwt:
+    # Phải trùng với secret của Identity-Service để verify được chữ ký
+    secret: ${JWT_SECRET}
