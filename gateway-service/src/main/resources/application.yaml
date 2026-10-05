@@ -28,6 +28,11 @@ spring:
               uri: lb://product-service
               predicates:
                 - Path=/api/products/**
+            # JwtAuthenticationGlobalFilter kiểm tra JWT và gắn X-User-Role trước khi forward
+            - id: course-service
+              uri: lb://course-service
+              predicates:
+                - Path=/api/courses/**
 
 eureka:
   client:

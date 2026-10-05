@@ -113,12 +113,17 @@ public class AuthService {
         if (request.email() != null && userRepository.existsByEmail(request.email())) {
             throw new IllegalArgumentException("Email is already in use");
         }
+        // Không cho tự đăng ký quyền ADMIN
+        Role role = request.role() != null ? request.role() : Role.ROLE_USER;
+        if (role == Role.ROLE_ADMIN) {
+            throw new IllegalArgumentException("Cannot register with role ROLE_ADMIN");
+        }
 
         User user = User.builder()
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .email(request.email())
-                .role(Role.ROLE_USER)
+                .role(role)
                 .build();
         return userRepository.save(user);
     }
